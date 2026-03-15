@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Column Selector</title>
+    <link rel="stylesheet" href="pico.min.css">
+  </head>
+  <body>
+    <main id="csa" class="container-fluid">
+      <h1>Column Selector</h1>
+
+      <h3>Analyts</h3>
+      <ul>
+        <li v-if="analyts.length >= 2">
+          <button type="button" @click="analyts = []">Delete all</button>
+        </li>
+
+        <li v-for="analyt of analyts">
+          <button type="button" @click="removeAnalyt(analyt)">X</button>
+          {{analyt}}
+        </li>
+        <li>
+          +
+          <select :value="" @input="addAnalyt">
+            <option />
+            <option
+              v-for="analyt of allAnalyts.filter(analyt => !analyts.includes(analyt))"
+            >
+              {{analyt}}
+            </option>
+          </select>
+        </li>
+      </ul>
+
+      <div v-for="column of getActiveColumnNames()" v-if="analyts.length > 0">
+        <h3>{{column}}</h3>
+
+        <table v-for="valueIndex of getActiveValueIndexes(column)" :key="valueIndex">
+          <tr>
+            <th />
+            <th>{{valueTitles[valueIndex]}}</th>
+          </tr>
+          <tr v-for="(analyt, analytIndex) of getSortedAnalyts(column, valueIndex)" :key="analyt">
+            <td>{{analyt}}</td>
+            <td :class="getCellClass(column, valueIndex, analytIndex)">
+              {{data[analyt][column][valueIndex] == null ? fallbackDisplayString : data[analyt][column][valueIndex]}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </main>
+
+    <style type="text/css">
+      #csa {
+        display: inline-block;
+        width: auto;
+      }
+
+      #csa ul, #csa ul li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #csa li {
+        line-height: 2;
+      }
+
+      #csa select {
+        width: auto;
+        padding: 0.25em;
+      }
+
+      #csa table {
+        display: inline-table;
+        width: auto;
+        border-collapse: collapse;
+        margin-right: 0.25em;
+        margin-bottom: 0.25em;
+      }
+
+      #csa td,
+      #csa th {
+        padding: 0.5em;
+        text-align: center;
+        border: 1px solid #aaa;
+      }
+
+      #csa td:first-child {
+        text-align: right;
+      }
+
+      #csa td:last-child {
+        min-width: 3em;
+      }
+
+      .csaGreen {
+        background: #a6ffa6;
+      }
+
+      .csaRed {
+        background: #ff7575;
+      }
+
+      /* pico.css-specific styles here */
+
+      #csa h3 {
+        margin-top: 1rem;
+      }
+
+      #csa button {
+        margin-bottom: 0.25rem;
+      }
+
+      @media only screen and (prefers-color-scheme: dark) {
+        .csaGreen {
+          background: #2d7a2d;
+        }
+
+        .csaRed {
+          background: #7a2d2d;
+        }
+      }
+    </style>
+
+    <script src="vue.js"></script>
+    <script src="data.js"></script>
+    <script src="column-selection.js"></script>
+  </body>
+</html>
