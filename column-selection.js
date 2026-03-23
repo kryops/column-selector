@@ -12,6 +12,46 @@ var Vue = window.Vue;
 const { createApp } = Vue;
 
 createApp({
+  template: `<h1>Column Selector</h1>
+<h3>Analyts</h3>
+<ul>
+  <li v-if="analyts.length >= 2">
+    <button type="button" @click="analyts = []">Delete all</button>
+  </li>
+
+  <li v-for="analyt of analyts">
+    <button type="button" @click="removeAnalyt(analyt)">X</button>
+    {{analyt}}
+  </li>
+  <li>
+    +
+    <select :value="" @input="addAnalyt">
+      <option />
+      <option
+        v-for="analyt of allAnalyts.filter(analyt => !analyts.includes(analyt))"
+      >
+        {{analyt}}
+      </option>
+    </select>
+  </li>
+</ul>
+
+<div v-for="column of getActiveColumnNames()" v-if="analyts.length > 0">
+  <h3>{{column}}</h3>
+
+  <table v-for="valueIndex of getActiveValueIndexes(column)" :key="valueIndex">
+    <tr>
+      <th />
+      <th>{{valueTitles[valueIndex]}}</th>
+    </tr>
+    <tr v-for="(analyt, analytIndex) of getSortedAnalyts(column, valueIndex)" :key="analyt">
+      <td>{{analyt}}</td>
+      <td :class="getCellClass(column, valueIndex, analytIndex)">
+        {{data[analyt][column][valueIndex] == null ? fallbackDisplayString : data[analyt][column][valueIndex]}}
+      </td>
+    </tr>
+  </table>
+</div>`,
   data() {
     return {
       valueTitles,
