@@ -36,7 +36,7 @@ createApp({
   </li>
 </ul>
 
-<div v-for="column of getActiveColumnNames()" v-if="analyts.length > 0">
+<template v-for="column of getActiveColumnNames()" v-if="analyts.length > 0">
   <h3>{{column}}</h3>
 
   <table v-for="valueIndex of getActiveValueIndexes(column)" :key="valueIndex">
@@ -51,7 +51,7 @@ createApp({
       </td>
     </tr>
   </table>
-</div>`,
+</template>`,
   data() {
     return {
       valueTitles,
