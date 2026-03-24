@@ -12,7 +12,7 @@ var Vue = window.Vue;
 const { createApp } = Vue;
 
 createApp({
-  template: `<h1>Column Selector</h1>
+  template: `<h2>Column Selector</h2>
 <h3>Analyts</h3>
 <ul>
   <li v-if="analyts.length >= 2">
