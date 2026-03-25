@@ -12,8 +12,7 @@ var Vue = window.Vue;
 const { createApp } = Vue;
 
 createApp({
-  template: `<h2>Column Selector</h2>
-<h3>Analyts</h3>
+  template: `<h3>Analyts</h3>
 <ul>
   <li v-if="analyts.length >= 2">
     <button type="button" @click="analyts = []">Delete all</button>
